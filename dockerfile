@@ -2,20 +2,15 @@
 
 FROM python:3.9.16-slim-buster
 
-RUN apt-get update && \
-    apt-get install -y git && \
-    rm -rf /var/lib/apt/lists/*
-
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir \
-    jenkins-job-builder \
-    virtualenv
+RUN yum install net-tools -y
+RUN yum install httpd -y
+RUN yum install python3 -y
 
 WORKDIR /app
 COPY . /app
 
 RUN pip install -U flask
 
-EXPOSE 8000
+ENTRYPOINT [ "python", "app.py"]
 
-CMD [ "python", "app.py"]
+EXPOSE 8000 8000
